@@ -6,7 +6,12 @@ import (
 )
 
 func indexHandler (w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, World!")
+	if r.Header.Get("X-Forwarded-Proto") == "https" {
+		fmt.Fprintf(w, "Hello, World!")
+	}
+	else {	
+		http.Redirect(w, r, "https://shankarvellal.com"+r.RequestURI, http.StatusMovedPermanently)
+	}
 }
 
 func main() {
